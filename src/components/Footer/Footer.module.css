@@ -1,0 +1,37 @@
+footer {
+  background: black;
+  color: white;
+  height: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.leftFooter {
+  display: flex;
+  justify-content: flex-start;
+  margin-left: 15px;
+  font-weight: bold;
+}
+
+.rightFooter {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 10px;
+}
+
+.rightFooter img {
+  height: 30px;
+  margin: 0px 10px;
+  transition: transform 0.2s;
+}
+
+.rightFooter img:hover {
+  height: 30px;
+  margin: 0px 10px;
+  transform: scale(1.1);
+}
+
+.indexFooter {
+  margin-top: 20px;
+}
