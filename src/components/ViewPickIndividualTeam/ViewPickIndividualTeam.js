@@ -28,13 +28,17 @@ export const ViewPickIndividualTeam = (props) => {
       : ''
   }`;
 
+  const scoreClasses = `${classes.score} ${
+    !props.score ? classes.hideBlankScore : ''
+  }`;
+
   return (
     <div className={teamClasses}>
       <div className={classes.logoAndSpread}>
         <img src={AllTeamLogos[props.teamName]} alt={props.teamName} />
         <div className={classes.spread}>{formatSpread(props.teamHandicap)}</div>
       </div>
-      <div className={classes.score}>{props.score}</div>
+      <div className={scoreClasses}>{props.score}</div>
       <p>{formatTeamName(props.teamName)}</p>
     </div>
   );

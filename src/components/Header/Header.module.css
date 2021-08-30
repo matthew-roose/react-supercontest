@@ -116,6 +116,10 @@ header {
   font-weight: bold;
 }
 
+.dropdownList .active {
+  font-weight: bold;
+}
+
 .picksDropdown:hover .picksDropdownList {
   display: block;
 }
