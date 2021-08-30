@@ -36,8 +36,11 @@ export const App = () => {
       <Route path="/makePicks">
         <MakePicks />
       </Route>
+      <Route path="/viewPicks" exact>
+        <ViewPicks />
+      </Route>
       <Route path="/viewPicks/:username">
-        <ViewPicks weekNumber="1" />
+        <ViewPicks />
       </Route>
       <Route path="/seasonLeaderboard">
         <SeasonLeaderboard />
