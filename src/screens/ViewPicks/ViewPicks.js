@@ -57,7 +57,9 @@ export const ViewPicks = () => {
 
   // this way you can still look at someone's picks from the leaderboard while not logged in
   if (!params.username) {
-    return <div>Log in to view your picks</div>;
+    return (
+      <div className={classes.message}>Please log in to view your picks.</div>
+    );
   }
 
   const changeFilterHandler = (event) => {
@@ -74,7 +76,10 @@ export const ViewPicks = () => {
   if (!weekNumberQueryParam) {
     return (
       <React.Fragment>
-        <div>Choose a week to view picks</div>;
+        <div className={classes.message}>
+          Please choose a week to view picks.
+        </div>
+        ;
         <div className={classes.selectWeekDropdown}>
           <p>Select week: </p>
           <select onChange={changeFilterHandler}>{selectOptions}</select>
@@ -109,7 +114,7 @@ export const ViewPicks = () => {
         {pushes !== 0 ? `-${pushes}` : ''}
       </div>
       {!pickedGameElements && (
-        <div className={classes.noPicks}>No picks yet!</div>
+        <div className={classes.message}>No picks yet.</div>
       )}
       <div>{pickedGameElements}</div>
     </React.Fragment>

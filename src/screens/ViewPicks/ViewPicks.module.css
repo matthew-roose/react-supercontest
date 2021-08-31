@@ -22,8 +22,8 @@
   font-weight: bold;
 }
 
-.noPicks {
-  text-align: center;
-  font-size: 48px;
+.message {
+  margin: 0 auto 10rem;
+  font-size: 2rem;
   font-weight: bold;
 }

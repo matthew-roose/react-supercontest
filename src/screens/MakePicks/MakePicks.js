@@ -1,6 +1,4 @@
-import React from 'react';
-
-import { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import { AuthContext } from '../../store/auth-context';
 import { MakePickIndividualGame } from '../../components/MakePickIndividualGame/MakePickIndividualGame';
@@ -13,6 +11,8 @@ export const MakePicks = () => {
   const [currentWeekNumber, setCurrentWeekNumber] = useState();
   const [availableGames, setAvailableGames] = useState([]);
 
+  // previously submitted picks used only for validation (an existing pick can be expired when submitting)
+  const [prevSubmittedPicks, setPrevSubmittedPicks] = useState([]);
   const [picks, setPicks] = useState([]);
 
   useEffect(() => {
@@ -24,7 +24,13 @@ export const MakePicks = () => {
       setCurrentWeekNumber(data);
     };
     getCurrentWeekNumber();
+<<<<<<< HEAD
 
+=======
+  }, []);
+
+  useEffect(() => {
+>>>>>>> 87a2fcd27d56ab2ea25770ae39a22c98c40f0fad
     if (!currentWeekNumber) {
       return;
     }
@@ -38,8 +44,8 @@ export const MakePicks = () => {
     };
     getAvailableGames();
 
-    if (authCtx.isLoggedIn) {
-      const getCurrentPicks = async () => {
+    if (authCtx.isLoggedIn && authCtx.username) {
+      const getPrevSubmittedPicks = async () => {
         const response = await fetch(
           `http://localhost:8080/getPicks/${authCtx.username}?weekNumber=${currentWeekNumber}`,
           {
@@ -50,9 +56,10 @@ export const MakePicks = () => {
           }
         );
         const currentPickData = await response.json();
+        setPrevSubmittedPicks(currentPickData.picks);
         setPicks(currentPickData.picks);
       };
-      getCurrentPicks();
+      getPrevSubmittedPicks();
     }
   }, [authCtx, currentWeekNumber]);
 
@@ -64,14 +71,16 @@ export const MakePicks = () => {
     homeTeamHandicap,
     gameTime
   ) => {
-    let prevPicks = [...picks];
-    // if this game was already picked, which team?
-    const prevPickedGamePick = prevPicks.find((pick) => pick.gameId === gameId);
+    let currentPicks = [...picks];
+    // was this game previously picked?
+    const prevPickedGamePick = currentPicks.find(
+      (pick) => pick.gameId === gameId
+    );
     // game wasn't already picked
     if (!prevPickedGamePick) {
-      if (prevPicks.length < 5) {
+      if (currentPicks.length < 5) {
         setPicks([
-          ...prevPicks,
+          ...currentPicks,
           {
             gameId,
             pickedTeam,
@@ -88,11 +97,11 @@ export const MakePicks = () => {
     } else {
       // game WAS already picked
       // whether switching teams or just removing the pick, need to remove original pick for game
-      prevPicks = prevPicks.filter((pick) => pick.gameId !== gameId);
-      // need to add the other team
+      currentPicks = currentPicks.filter((pick) => pick.gameId !== gameId);
+      // need to add new team if the other team was picked
       if (prevPickedGamePick.pickedTeam !== pickedTeam) {
         setPicks([
-          ...prevPicks,
+          ...currentPicks,
           {
             gameId,
             pickedTeam,
@@ -104,12 +113,33 @@ export const MakePicks = () => {
         ]);
       } else {
         // need to set picks state with this game filtered out
-        setPicks(prevPicks);
+        setPicks(currentPicks);
       }
     }
   };
 
   const submitPicksHandler = () => {
+    // only want to check the picks that weren't in the GET call when loading the page
+    const newPicks = picks.filter(
+      (pick) =>
+        !prevSubmittedPicks.find((prevPick) => prevPick.gameId === pick.gameId)
+    );
+    const expiredPicks = newPicks.filter(
+      (pick) => +pick.gameTime < new Date().getTime()
+    );
+    // make sure that previously submitted picks that have started are still there
+    const missingPicks = prevSubmittedPicks.filter(
+      (prevPick) => !picks.find((pick) => pick.gameId === prevPick.gameId)
+    );
+    const missingExpiredPicks = missingPicks.filter(
+      (pick) => +pick.gameTime < new Date().getTime()
+    );
+
+    // logic also exists in MakePickIndividualTeam that should prevent this but there could be a case where someone loaded the page seconds before lock time
+    if (expiredPicks.length > 0 || missingExpiredPicks.length > 0) {
+      alert('One or more games have already started.');
+      return;
+    }
     fetch('http://localhost:8080/submitPicks', {
       method: 'POST',
       body: JSON.stringify({
@@ -120,11 +150,18 @@ export const MakePicks = () => {
         'Login-Token': authCtx.loginToken,
         'Content-Type': 'application/json',
       },
-    });
+    }).then(() => setPrevSubmittedPicks(picks)); // if someone submits picks but doesn't refresh the page, they would be able to overwrite that pick after the game started
   };
 
+  // when getCurrentWeekNumber useEffect hasn't completed in time
   if (!availableGames) {
     return;
+  }
+
+  if (!authCtx.isLoggedIn) {
+    return (
+      <div className={classes.notLoggedIn}>Please log in to make picks.</div>
+    );
   }
 
   const availableGameElements = availableGames.map((game) => {
@@ -148,7 +185,9 @@ export const MakePicks = () => {
     <React.Fragment>
       <div className={classes.weekNumberTitle}>Week {currentWeekNumber}</div>
       <div>{availableGameElements}</div>
-      <button onClick={submitPicksHandler}>Submit picks</button>
+      <button className={classes.submitButton} onClick={submitPicksHandler}>
+        Submit picks
+      </button>
     </React.Fragment>
   );
 };

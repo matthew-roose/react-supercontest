@@ -2,7 +2,7 @@ import classes from './Footer.module.css';
 
 export const Footer = () => {
   return (
-    <footer className={classes.indexFooter}>
+    <footer>
       <div className={classes.leftFooter}>&copy; 2021 GigaChad Sports</div>
       <div className={classes.rightFooter}>
         <a href="https://instagram.com" target="_blank" rel="noreferrer">
