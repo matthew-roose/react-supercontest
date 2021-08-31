@@ -20,12 +20,15 @@ const formatSpread = (spread) => {
 
 export const MakePickIndividualTeam = (props) => {
   const pickTeamHandler = () => {
+    if (props.gameTime < new Date().getTime()) {
+      return;
+    }
     props.onPickTeam(props.teamName);
   };
 
   const teamClasses = `${classes.choice} ${
     props.isPickedTeam ? classes.pickedTeam : ''
-  }`;
+  } ${props.expired ? classes.expired : ''}`;
 
   return (
     <div onClick={pickTeamHandler} className={teamClasses}>

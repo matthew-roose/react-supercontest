@@ -29,6 +29,7 @@
 .logoAndSpread img {
   height: 8rem;
   width: 8rem;
+  margin-top: 1rem;
 }
 
 .logoAndSpread div {
@@ -43,4 +44,13 @@
 
 .pickedTeam {
   background-color: gray;
+}
+
+.expired {
+  opacity: 30%;
+}
+
+.expired:hover {
+  cursor: not-allowed;
+  transform: scale(1);
 }

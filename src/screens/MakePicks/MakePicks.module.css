@@ -1,7 +1,28 @@
+.notLoggedIn {
+  margin: 0 auto 10rem;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
 .weekNumberTitle {
   text-align: center;
   margin-top: 3rem;
-  font-size: 36px;
+  font-size: 3rem;
   font-weight: bold;
   font-style: italic;
+}
+
+.submitButton {
+  max-width: 10rem;
+  margin: 0 auto 1rem;
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  background-color: lightgreen;
+  border-radius: 1rem;
+}
+
+.submitButton:hover {
+  cursor: pointer;
+  background-color: limegreen;
 }

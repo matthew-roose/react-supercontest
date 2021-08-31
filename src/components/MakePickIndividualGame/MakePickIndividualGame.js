@@ -4,7 +4,6 @@ import { MakePickIndividualTeam } from '../MakePickIndividualTeam/MakePickIndivi
 import classes from './MakePickIndividualGame.module.css';
 
 export const MakePickIndividualGame = (props) => {
-  // put gameTime back in
   const { gameId, homeTeam, awayTeam, homeTeamHandicap, gameTime } = props.game;
 
   const pickTeamHandler = (pickedTeam) => {
@@ -20,13 +19,17 @@ export const MakePickIndividualGame = (props) => {
 
   return (
     <React.Fragment>
-      <div className={classes.gameTime}>{gameTime}</div>
+      <div className={classes.gameTime}>
+        {new Date(+gameTime).toLocaleString()}
+      </div>
       <div className={classes.game}>
         <MakePickIndividualTeam
           onPickTeam={pickTeamHandler}
           teamName={awayTeam}
           teamHandicap={homeTeamHandicap * -1}
           isPickedTeam={props.pickedTeam === awayTeam}
+          gameTime={+gameTime}
+          expired={+gameTime < new Date().getTime()}
         />
 
         <p className={classes.at}>at</p>
@@ -36,6 +39,8 @@ export const MakePickIndividualGame = (props) => {
           teamName={homeTeam}
           teamHandicap={homeTeamHandicap}
           isPickedTeam={props.pickedTeam === homeTeam}
+          gameTime={+gameTime}
+          expired={+gameTime < new Date().getTime()}
         />
       </div>
     </React.Fragment>

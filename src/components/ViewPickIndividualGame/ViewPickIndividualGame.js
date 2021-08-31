@@ -24,7 +24,6 @@ export const ViewPickIndividualGame = (props) => {
   if (!pickedTeam) {
     return (
       <React.Fragment>
-        {/* <div className={classes.gameTime}></div> */}
         <div className={classes.game}>
           <ViewPickMysteryTeam />
           <p className={classes.at}>at</p>
@@ -36,7 +35,9 @@ export const ViewPickIndividualGame = (props) => {
 
   return (
     <React.Fragment>
-      <div className={classes.gameTime}>{gameTime}</div>
+      <div className={classes.gameTime}>
+        {new Date(+gameTime).toLocaleString()}
+      </div>
       <div className={classes.game}>
         <ViewPickIndividualTeam
           isPickedTeam={isAwayTeamPicked}
