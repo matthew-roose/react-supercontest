@@ -24,13 +24,9 @@ export const MakePicks = () => {
       setCurrentWeekNumber(data);
     };
     getCurrentWeekNumber();
-<<<<<<< HEAD
-
-=======
   }, []);
 
   useEffect(() => {
->>>>>>> 87a2fcd27d56ab2ea25770ae39a22c98c40f0fad
     if (!currentWeekNumber) {
       return;
     }
