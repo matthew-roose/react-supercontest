@@ -18,8 +18,9 @@
   font-weight: bold;
   width: 25%;
   padding: 30px;
+  margin-top: 20px;
 }
 
-p {
+.welcomeText p {
   text-align: center;
 }
