@@ -1,11 +1,24 @@
-import { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { useContext, useEffect, useState } from 'react';
+import { Link, NavLink } from 'react-router-dom';
 
 import { AuthContext } from '../../store/auth-context';
 import classes from './Header.module.css';
 
 export const Header = (props) => {
   const authCtx = useContext(AuthContext);
+
+  const [currentWeekNumber, setCurrentWeekNumber] = useState(1);
+
+  useEffect(() => {
+    const getCurrentWeekNumber = async () => {
+      const response = await fetch(
+        'http://localhost:8080/getCurrentWeekNumber'
+      );
+      const data = await response.json();
+      setCurrentWeekNumber(data);
+    };
+    getCurrentWeekNumber();
+  });
 
   let authDiv;
   if (!authCtx.isLoggedIn) {
@@ -29,7 +42,7 @@ export const Header = (props) => {
   }
 
   const viewPicksUrl = authCtx.isLoggedIn
-    ? `/viewPicks/${authCtx.username}?weekNumber=1`
+    ? `/viewPicks/${authCtx.username}?weekNumber=${currentWeekNumber}`
     : '/viewPicks';
 
   return (
@@ -58,12 +71,12 @@ export const Header = (props) => {
           <ul
             className={`${classes.dropdownList} ${classes.picksDropdownList}`}
           >
-            <Link to="/makePicks">
+            <NavLink to="/makePicks" activeClassName={classes.active}>
               <li>Make Picks</li>
-            </Link>
-            <Link to={viewPicksUrl}>
+            </NavLink>
+            <NavLink to={viewPicksUrl} activeClassName={classes.active}>
               <li>View Picks</li>
-            </Link>
+            </NavLink>
           </ul>
         </div>
 
@@ -78,12 +91,15 @@ export const Header = (props) => {
           <ul
             className={`${classes.dropdownList} ${classes.leaderboardDropdownList}`}
           >
-            <Link to="/seasonLeaderboard">
+            <NavLink to="/seasonLeaderboard" activeClassName={classes.active}>
               <li>Season</li>
-            </Link>
-            <Link to="/weeklyLeaderboard">
+            </NavLink>
+            <NavLink
+              to={`/weeklyLeaderboard?weekNumber=${currentWeekNumber}`}
+              activeClassName={classes.active}
+            >
               <li>Weekly</li>
-            </Link>
+            </NavLink>
           </ul>
         </div>
 
@@ -98,12 +114,12 @@ export const Header = (props) => {
           <ul
             className={`${classes.dropdownList} ${classes.adminDropdownList}`}
           >
-            <Link to="/admin/postLines">
+            <NavLink to="/admin/postLines" activeClassName={classes.active}>
               <li>Post Lines</li>
-            </Link>
-            <Link to="/admin/scoreGames">
+            </NavLink>
+            <NavLink to="/admin/scoreGames" activeClassName={classes.active}>
               <li>Score Games</li>
-            </Link>
+            </NavLink>
           </ul>
         </div>
       </div>

@@ -1,6 +1,29 @@
+.selectWeekDropdown {
+  display: flex;
+  align-items: center;
+  margin: 20px auto;
+}
+
+.selectWeekDropdown p {
+  margin: 5px 10px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.selectWeekDropdown select {
+  padding: 5px;
+  font-size: 18px;
+  border-radius: 10px;
+}
+
 .weekNumberTitle {
   text-align: center;
-  margin-top: 3rem;
   font-size: 36px;
+  font-weight: bold;
+}
+
+.noPicks {
+  text-align: center;
+  font-size: 48px;
   font-weight: bold;
 }

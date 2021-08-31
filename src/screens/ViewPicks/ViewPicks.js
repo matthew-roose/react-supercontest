@@ -6,7 +6,7 @@ import { ViewPickIndividualGame } from '../../components/ViewPickIndividualGame/
 
 import classes from './ViewPicks.module.css';
 
-export const ViewPicks = (props) => {
+export const ViewPicks = () => {
   const authCtx = useContext(AuthContext);
 
   const history = useHistory();
@@ -17,6 +17,7 @@ export const ViewPicks = (props) => {
 
   const params = useParams();
 
+  const [availableWeeks, setAvailableWeeks] = useState([]);
   const [picks, setPicks] = useState([]);
 
   let wins = 0;
@@ -24,31 +25,65 @@ export const ViewPicks = (props) => {
   let pushes = 0;
 
   useEffect(() => {
-    if (authCtx.isLoggedIn) {
-      const getWeeklyPicks = async () => {
-        const response = await fetch(
-          // can look up picks from any user
-          `http://localhost:8080/getPicks/${params.username}?weekNumber=${weekNumberQueryParam}`,
-          {
-            headers: {
-              'Login-Token': authCtx.loginToken,
-              'Content-Type': 'application/json',
-            },
-          }
-        );
-        const pickData = await response.json();
-        setPicks(pickData.picks);
-      };
-      getWeeklyPicks();
+    const getAvailableWeeks = async () => {
+      const response = await fetch(
+        'http://localhost:8080/getAllWeekNumbersSoFar'
+      );
+      const data = await response.json();
+      setAvailableWeeks(data);
+    };
+    getAvailableWeeks();
+
+    if (!params.username || !weekNumberQueryParam) {
+      return;
     }
+
+    const getWeeklyPicks = async () => {
+      const response = await fetch(
+        // can look up picks from any user but they are cleaned if not logged into that user
+        `http://localhost:8080/getPicks/${params.username}?weekNumber=${weekNumberQueryParam}`,
+        {
+          headers: {
+            'Login-Token': authCtx.loginToken,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      const pickData = await response.json();
+      setPicks(pickData.picks);
+    };
+    getWeeklyPicks();
   }, [authCtx, params.username, weekNumberQueryParam]);
+
+  // this way you can still look at someone's picks from the leaderboard while not logged in
+  if (!params.username) {
+    return <div>Log in to view your picks</div>;
+  }
 
   const changeFilterHandler = (event) => {
     history.push(`${location.pathname}?weekNumber=${event.target.value}`);
-    // setWeekFilter(event.target.value);
   };
 
-  const pickedGameElements = picks.map((pick) => {
+  const selectOptions = availableWeeks.map((weekNumber) => (
+    <option key={weekNumber} value={weekNumber}>
+      {weekNumber}
+    </option>
+  ));
+
+  // if for some reason you have /username in the URL but no weekNumber query string
+  if (!weekNumberQueryParam) {
+    return (
+      <React.Fragment>
+        <div>Choose a week to view picks</div>;
+        <div className={classes.selectWeekDropdown}>
+          <p>Select week: </p>
+          <select onChange={changeFilterHandler}>{selectOptions}</select>
+        </div>
+      </React.Fragment>
+    );
+  }
+
+  const pickedGameElements = picks.map((pick, index) => {
     if (pick.result === 'WIN') {
       wins++;
     } else if (pick.result === 'LOSS') {
@@ -56,20 +91,26 @@ export const ViewPicks = (props) => {
     } else if (pick.result === 'PUSH') {
       pushes++;
     }
-    return <ViewPickIndividualGame key={pick.gameId} pick={pick} />;
+    // use index as key because pick.gameId will be null if not authenticated as this user
+    return <ViewPickIndividualGame key={index} pick={pick} />;
   });
 
   return (
     <React.Fragment>
+      <div className={classes.selectWeekDropdown}>
+        <p>Select week: </p>
+        <select value={weekNumberQueryParam} onChange={changeFilterHandler}>
+          {selectOptions}
+        </select>
+      </div>
+
       <div className={classes.weekNumberTitle}>
         Week {weekNumberQueryParam}: {wins}-{losses}
         {pushes !== 0 ? `-${pushes}` : ''}
       </div>
-      <select onChange={changeFilterHandler}>
-        <option value={1}>1</option>
-        <option value={2}>2</option>
-        <option value={3}>3</option>
-      </select>
+      {!pickedGameElements && (
+        <div className={classes.noPicks}>No picks yet!</div>
+      )}
       <div>{pickedGameElements}</div>
     </React.Fragment>
   );

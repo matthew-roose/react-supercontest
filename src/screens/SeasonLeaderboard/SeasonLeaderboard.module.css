@@ -1,0 +1,43 @@
+.leaderboardTitle {
+  text-align: center;
+  font-size: 36px;
+  font-weight: bold;
+}
+
+.leaderboard {
+  margin: 20px auto;
+  width: 60%;
+  min-height: 300px;
+  font-size: 24px;
+  font-weight: bold;
+  border: 1px solid black;
+  border-spacing: 0px;
+}
+
+.leaderboard tr:nth-child(odd) {
+  background-color: white;
+}
+
+.leaderboard tr:nth-child(even) {
+  background-color: lightgray;
+}
+
+.leaderboardHeader > * {
+  color: white;
+  background-color: black;
+  overflow: hidden;
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  padding: 10px 10px 10px 10px;
+}
+
+.leaderboardRow {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.username {
+  font-style: italic;
+}

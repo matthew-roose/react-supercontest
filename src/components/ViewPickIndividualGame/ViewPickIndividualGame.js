@@ -1,4 +1,6 @@
 import React from 'react';
+
+import { ViewPickMysteryTeam } from '../ViewPickMysteryTeam/ViewPickMysteryTeam';
 import { ViewPickIndividualTeam } from '../ViewPickIndividualTeam/ViewPickIndividualTeam';
 
 import classes from './ViewPickIndividualGame.module.css';
@@ -18,7 +20,20 @@ export const ViewPickIndividualGame = (props) => {
   const isAwayTeamPicked = pickedTeam === awayTeam;
   const isHomeTeamPicked = pickedTeam === homeTeam;
 
-  console.log(props.pick);
+  // not logged in as this user so it should be a mystery until final
+  if (!pickedTeam) {
+    return (
+      <React.Fragment>
+        {/* <div className={classes.gameTime}></div> */}
+        <div className={classes.game}>
+          <ViewPickMysteryTeam />
+          <p className={classes.at}>at</p>
+          <ViewPickMysteryTeam />
+        </div>
+      </React.Fragment>
+    );
+  }
+
   return (
     <React.Fragment>
       <div className={classes.gameTime}>{gameTime}</div>

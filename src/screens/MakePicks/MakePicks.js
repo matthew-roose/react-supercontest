@@ -7,19 +7,33 @@ import { MakePickIndividualGame } from '../../components/MakePickIndividualGame/
 
 import classes from './MakePicks.module.css';
 
-export const MakePicks = (props) => {
+export const MakePicks = () => {
   const authCtx = useContext(AuthContext);
 
-  const [weekNumber, setWeekNumber] = useState('');
+  const [currentWeekNumber, setCurrentWeekNumber] = useState();
   const [availableGames, setAvailableGames] = useState([]);
 
   const [picks, setPicks] = useState([]);
 
   useEffect(() => {
+    const getCurrentWeekNumber = async () => {
+      const response = await fetch(
+        'http://localhost:8080/getCurrentWeekNumber'
+      );
+      const data = await response.json();
+      setCurrentWeekNumber(data);
+    };
+    getCurrentWeekNumber();
+
+    if (!currentWeekNumber) {
+      return;
+    }
+
     const getAvailableGames = async () => {
-      const response = await fetch('http://localhost:8080/getLines/1');
+      const response = await fetch(
+        `http://localhost:8080/getLines/${currentWeekNumber}`
+      );
       const availableGameData = await response.json();
-      setWeekNumber(availableGameData.weekNumber);
       setAvailableGames(availableGameData.linesOfTheWeek);
     };
     getAvailableGames();
@@ -27,7 +41,7 @@ export const MakePicks = (props) => {
     if (authCtx.isLoggedIn) {
       const getCurrentPicks = async () => {
         const response = await fetch(
-          `http://localhost:8080/getPicks/${authCtx.username}?weekNumber=1`,
+          `http://localhost:8080/getPicks/${authCtx.username}?weekNumber=${currentWeekNumber}`,
           {
             headers: {
               'Login-Token': authCtx.loginToken,
@@ -40,7 +54,7 @@ export const MakePicks = (props) => {
       };
       getCurrentPicks();
     }
-  }, [authCtx]);
+  }, [authCtx, currentWeekNumber]);
 
   const addPickHandler = (
     gameId,
@@ -99,7 +113,7 @@ export const MakePicks = (props) => {
     fetch('http://localhost:8080/submitPicks', {
       method: 'POST',
       body: JSON.stringify({
-        weekNumber: weekNumber,
+        weekNumber: currentWeekNumber,
         picks: picks,
       }),
       headers: {
@@ -108,6 +122,10 @@ export const MakePicks = (props) => {
       },
     });
   };
+
+  if (!availableGames) {
+    return;
+  }
 
   const availableGameElements = availableGames.map((game) => {
     let pickedTeam;
@@ -128,7 +146,7 @@ export const MakePicks = (props) => {
 
   return (
     <React.Fragment>
-      <div className={classes.weekNumberTitle}>Week {weekNumber}</div>
+      <div className={classes.weekNumberTitle}>Week {currentWeekNumber}</div>
       <div>{availableGameElements}</div>
       <button onClick={submitPicksHandler}>Submit picks</button>
     </React.Fragment>
