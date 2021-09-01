@@ -18,7 +18,7 @@ export const MakePicks = () => {
   useEffect(() => {
     const getCurrentWeekNumber = async () => {
       const response = await fetch(
-        'https://api.chadssupercontest.net:8080/getCurrentWeekNumber'
+        'https://api.chadssupercontest.net/getCurrentWeekNumber'
       );
       const data = await response.json();
       setCurrentWeekNumber(data);
@@ -33,7 +33,7 @@ export const MakePicks = () => {
 
     const getAvailableGames = async () => {
       const response = await fetch(
-        `https://api.chadssupercontest.net:8080/getLines/${currentWeekNumber}`
+        `https://api.chadssupercontest.net/getLines/${currentWeekNumber}`
       );
       const availableGameData = await response.json();
       setAvailableGames(availableGameData.linesOfTheWeek);
@@ -43,7 +43,7 @@ export const MakePicks = () => {
     if (authCtx.isLoggedIn && authCtx.username) {
       const getPrevSubmittedPicks = async () => {
         const response = await fetch(
-          `https://api.chadssupercontest.net:8080/getPicks/${authCtx.username}?weekNumber=${currentWeekNumber}`,
+          `https://api.chadssupercontest.net/getPicks/${authCtx.username}?weekNumber=${currentWeekNumber}`,
           {
             headers: {
               'Login-Token': authCtx.loginToken,
@@ -137,7 +137,7 @@ export const MakePicks = () => {
       alert('One or more games have already started.');
       return;
     }
-    fetch('https://api.chadssupercontest.net:8080/submitPicks', {
+    fetch('https://api.chadssupercontest.net/submitPicks', {
       method: 'POST',
       body: JSON.stringify({
         weekNumber: currentWeekNumber,

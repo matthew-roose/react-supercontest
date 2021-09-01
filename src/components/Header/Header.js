@@ -12,7 +12,7 @@ export const Header = (props) => {
   useEffect(() => {
     const getCurrentWeekNumber = async () => {
       const response = await fetch(
-        'https://api.chadssupercontest.net:8080/getCurrentWeekNumber'
+        'https://api.chadssupercontest.net/getCurrentWeekNumber'
       );
       const data = await response.json();
       setCurrentWeekNumber(data);

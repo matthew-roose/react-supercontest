@@ -14,7 +14,7 @@ export const PostLines = () => {
   useEffect(() => {
     const checkIsAdmin = async () => {
       const response = await fetch(
-        'https://api.chadssupercontest.net:8080/admin/authenticate',
+        'https://api.chadssupercontest.net/admin/authenticate',
         {
           headers: {
             'Login-Token': authCtx.loginToken,

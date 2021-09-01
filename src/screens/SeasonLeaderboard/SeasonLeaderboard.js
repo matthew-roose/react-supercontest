@@ -8,7 +8,7 @@ export const SeasonLeaderboard = () => {
   useEffect(() => {
     const getSeasonLeaderboardData = async () => {
       const response = await fetch(
-        'https://api.chadssupercontest.net:8080/getSeasonLeaderboard'
+        'https://api.chadssupercontest.net/getSeasonLeaderboard'
       );
       const data = await response.json();
       setSeasonLeaderboardData(data);

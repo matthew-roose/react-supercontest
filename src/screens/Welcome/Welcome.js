@@ -13,7 +13,7 @@ export const Welcome = () => {
       <div className={classes.welcomeText}>
         <p>
           Hey {authCtx.firstName ? authCtx.firstName : 'anon'}, welcome to my
-          supercontest.
+          Supercontest.
         </p>
         <p> To play, make 5 picks against the spread every week.</p>
         <p>
