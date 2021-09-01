@@ -88,6 +88,7 @@ export const MakePicks = () => {
         ]);
       } else {
         // 5 picks already made
+        alert('5 picks already made.');
         return;
       }
     } else {

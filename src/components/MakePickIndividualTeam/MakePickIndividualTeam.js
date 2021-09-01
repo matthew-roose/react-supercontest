@@ -21,6 +21,7 @@ const formatSpread = (spread) => {
 export const MakePickIndividualTeam = (props) => {
   const pickTeamHandler = () => {
     if (props.gameTime < new Date().getTime()) {
+      alert('That game has already started.');
       return;
     }
     props.onPickTeam(props.teamName);
