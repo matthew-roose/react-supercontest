@@ -14,7 +14,7 @@ export const ScoreGames = () => {
   useEffect(() => {
     const checkIsAdmin = async () => {
       const response = await fetch(
-        'http://api.chadssupercontest.net:8080/admin/authenticate',
+        'https://api.chadssupercontest.net:8080/admin/authenticate',
         {
           headers: {
             'Login-Token': authCtx.loginToken,

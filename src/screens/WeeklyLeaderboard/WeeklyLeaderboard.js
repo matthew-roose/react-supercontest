@@ -17,7 +17,7 @@ export const WeeklyLeaderboard = () => {
   useEffect(() => {
     const getAvailableWeeks = async () => {
       const response = await fetch(
-        'http://api.chadssupercontest.net:8080/getAllWeekNumbersSoFar'
+        'https://api.chadssupercontest.net:8080/getAllWeekNumbersSoFar'
       );
       const data = await response.json();
       setAvailableWeeks(data);
@@ -26,7 +26,7 @@ export const WeeklyLeaderboard = () => {
 
     const getWeeklyLeaderboardData = async () => {
       const response = await fetch(
-        `http://api.chadssupercontest.net:8080/getWeeklyLeaderboard/${weekNumberQueryParam}`
+        `https://api.chadssupercontest.net:8080/getWeeklyLeaderboard/${weekNumberQueryParam}`
       );
       const data = await response.json();
       setWeeklyLeaderboardData(data);

@@ -25,7 +25,7 @@ export const LoginForm = (props) => {
 
     // setIsLoading(true);
 
-    fetch('http://api.chadssupercontest.net:8080/login', {
+    fetch('https://api.chadssupercontest.net:8080/login', {
       method: 'POST',
       body: JSON.stringify({
         username: enteredUsername,

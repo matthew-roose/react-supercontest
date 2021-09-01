@@ -27,7 +27,7 @@ export const ViewPicks = () => {
   useEffect(() => {
     const getAvailableWeeks = async () => {
       const response = await fetch(
-        'http://api.chadssupercontest.net:8080/getAllWeekNumbersSoFar'
+        'https://api.chadssupercontest.net:8080/getAllWeekNumbersSoFar'
       );
       const data = await response.json();
       setAvailableWeeks(data);
@@ -41,7 +41,7 @@ export const ViewPicks = () => {
     const getWeeklyPicks = async () => {
       const response = await fetch(
         // can look up picks from any user but they are cleaned if not logged into that user
-        `http://api.chadssupercontest.net:8080/getPicks/${params.username}?weekNumber=${weekNumberQueryParam}`,
+        `https://api.chadssupercontest.net:8080/getPicks/${params.username}?weekNumber=${weekNumberQueryParam}`,
         {
           headers: {
             'Login-Token': authCtx.loginToken,
