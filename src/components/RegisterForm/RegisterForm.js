@@ -30,7 +30,7 @@ export const RegisterForm = (props) => {
 
     // setIsLoading(true);
 
-    fetch('http://localhost:8080/register', {
+    fetch('http://api.chadssupercontest.net:8080/register', {
       method: 'POST',
       body: JSON.stringify({
         firstName: enteredFirstName,

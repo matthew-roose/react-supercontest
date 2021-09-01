@@ -13,12 +13,15 @@ export const PostLines = () => {
 
   useEffect(() => {
     const checkIsAdmin = async () => {
-      const response = await fetch('http://localhost:8080/admin/authenticate', {
-        headers: {
-          'Login-Token': authCtx.loginToken,
-          'Content-Type': 'application/json',
-        },
-      });
+      const response = await fetch(
+        'http://api.chadssupercontest.net:8080/admin/authenticate',
+        {
+          headers: {
+            'Login-Token': authCtx.loginToken,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
       const isAdminData = await response.json();
       setIsAdmin(isAdminData);
     };
