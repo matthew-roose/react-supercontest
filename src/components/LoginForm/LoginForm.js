@@ -40,8 +40,7 @@ export const LoginForm = (props) => {
         if (response.ok) {
           return response.json();
         } else {
-          // const data = await response.json();
-          throw new Error('Error');
+          throw new Error('Error logging in.');
         }
       })
       .then((data) => {

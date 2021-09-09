@@ -147,7 +147,18 @@ export const MakePicks = () => {
         'Login-Token': authCtx.loginToken,
         'Content-Type': 'application/json',
       },
-    }).then(() => setPrevSubmittedPicks(picks)); // if someone submits picks but doesn't refresh the page, they would be able to overwrite that pick after the game started
+    })
+      .then(async (response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error('Error submitting picks.');
+        }
+      })
+      .then(() => {
+        setPrevSubmittedPicks(picks); // without this, if someone submits picks but doesn't refresh the page, they would be able to overwrite that pick after the game started
+        alert('Successfully submitted picks.');
+      });
   };
 
   // when getCurrentWeekNumber useEffect hasn't completed in time
