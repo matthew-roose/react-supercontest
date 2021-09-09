@@ -108,15 +108,14 @@ export const ViewPicks = () => {
           {selectOptions}
         </select>
       </div>
-
-      <div className={classes.weekNumberTitle}>
-        Week {weekNumberQueryParam}: {wins}-{losses}
-        {pushes !== 0 ? `-${pushes}` : ''}
-      </div>
-      {!pickedGameElements && (
-        <div className={classes.message}>No picks yet.</div>
+      {picks.length > 0 && (
+        <div className={classes.weekNumberTitle}>
+          Week {weekNumberQueryParam}: {wins}-{losses}
+          {pushes !== 0 ? `-${pushes}` : ''}
+        </div>
       )}
-      <div>{pickedGameElements}</div>
+      {picks.length > 0 && <div>{pickedGameElements}</div>}
+      {!picks.length > 0 && <div className={classes.message}>No picks.</div>}
     </React.Fragment>
   );
 };
