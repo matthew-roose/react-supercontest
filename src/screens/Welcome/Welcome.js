@@ -16,10 +16,7 @@ export const Welcome = () => {
           Supercontest.
         </p>
         <p> To play, make 5 picks against the spread every week.</p>
-        <p>
-          Passwords are definitely not stored securely so don't give me your
-          bank password.
-        </p>
+        <p>New lines are uploaded every Wednesday.</p>
         <p>Good luck and have fun!</p>
         <p>- Chad</p>
       </div>

@@ -9,7 +9,7 @@ export const ViewPickMysteryTeam = () => {
           alt="mystery_team"
         />
       </div>
-      <p>Mystery Team</p>
+      <p>Game hasn't started</p>
     </div>
   );
 };
