@@ -49,7 +49,6 @@ export const WeeklyLeaderboard = () => {
     const wins = weekOfPicks.weeklyWins;
     const losses = weekOfPicks.weeklyLosses;
     const pushes = weekOfPicks.weeklyPushes;
-    const winPct = (wins / (wins + losses)).toFixed(2);
     return (
       <tr key={player.username} className={classes.leaderboardRow}>
         <td className={classes.username}>
@@ -60,9 +59,7 @@ export const WeeklyLeaderboard = () => {
           </Link>
         </td>
         <td>{`${player.firstName} ${player.lastName}`}</td>
-        <td>{`${wins}-${losses}${
-          pushes > 0 ? `-${pushes}` : ''
-        } (${winPct}%)`}</td>
+        <td>{`${wins}-${losses}${pushes > 0 ? `-${pushes}` : ''}`}</td>
         <td>{weekOfPicks.weeklyScore.toFixed(1)}</td>
       </tr>
     );

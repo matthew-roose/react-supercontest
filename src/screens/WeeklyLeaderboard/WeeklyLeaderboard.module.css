@@ -23,8 +23,8 @@
 }
 
 .leaderboard {
-  margin: 20px auto;
-  width: 60%;
+  margin: 20px auto 40px;
+  width: 70%;
   min-height: 300px;
   font-size: 24px;
   font-weight: bold;

@@ -2,11 +2,12 @@
   text-align: center;
   font-size: 36px;
   font-weight: bold;
+  margin-top: 20px;
 }
 
 .leaderboard {
-  margin: 20px auto;
-  width: 60%;
+  margin: 20px auto 40px;
+  width: 70%;
   min-height: 300px;
   font-size: 24px;
   font-weight: bold;

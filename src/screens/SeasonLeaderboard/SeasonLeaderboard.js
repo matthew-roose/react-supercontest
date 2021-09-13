@@ -20,7 +20,7 @@ export const SeasonLeaderboard = () => {
     const wins = player.seasonWins;
     const losses = player.seasonLosses;
     const pushes = player.seasonPushes;
-    const winPct = (wins / (wins + losses)).toFixed(2);
+    const winPct = ((wins / (wins + losses)) * 100).toFixed(2);
     return (
       <tr key={player.username} className={classes.leaderboardRow}>
         <td className={classes.username}>{player.username}</td>
