@@ -44,21 +44,29 @@ export const WeeklyLeaderboard = () => {
     </option>
   ));
 
-  const leaderboardElements = weeklyLeaderboardData.map((player) => (
-    <tr key={player.username} className={classes.leaderboardRow}>
-      <td className={classes.username}>
-        <Link
-          to={`/viewPicks/${player.username}?weekNumber=${weekNumberQueryParam}`}
-        >
-          {player.username}
-        </Link>
-      </td>
-      <td>{`${player.firstName} ${player.lastName}`}</td>
-      <td>
-        {player.allPicks[weekNumberQueryParam - 1].weeklyScore.toFixed(1)}
-      </td>
-    </tr>
-  ));
+  const leaderboardElements = weeklyLeaderboardData.map((player) => {
+    const weekOfPicks = player.allPicks[weekNumberQueryParam - 1];
+    const wins = weekOfPicks.weeklyWins;
+    const losses = weekOfPicks.weeklyLosses;
+    const pushes = weekOfPicks.weeklyPushes;
+    const winPct = (wins / (wins + losses)).toFixed(2);
+    return (
+      <tr key={player.username} className={classes.leaderboardRow}>
+        <td className={classes.username}>
+          <Link
+            to={`/viewPicks/${player.username}?weekNumber=${weekNumberQueryParam}`}
+          >
+            {player.username}
+          </Link>
+        </td>
+        <td>{`${player.firstName} ${player.lastName}`}</td>
+        <td>{`${wins}-${losses}${
+          pushes > 0 ? `-${pushes}` : ''
+        } (${winPct}%)`}</td>
+        <td>{weekOfPicks.weeklyScore.toFixed(1)}</td>
+      </tr>
+    );
+  });
 
   return (
     <React.Fragment>
@@ -76,6 +84,7 @@ export const WeeklyLeaderboard = () => {
           <tr className={classes.leaderboardHeader}>
             <th>Username</th>
             <th>Name</th>
+            <th>Record</th>
             <th>Weekly score</th>
           </tr>
         </thead>

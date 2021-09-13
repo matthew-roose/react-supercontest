@@ -16,13 +16,22 @@ export const SeasonLeaderboard = () => {
     getSeasonLeaderboardData();
   }, []);
 
-  const leaderboardElements = seasonLeaderboardData.map((player) => (
-    <tr key={player.username} className={classes.leaderboardRow}>
-      <td className={classes.username}>{player.username}</td>
-      <td>{`${player.firstName} ${player.lastName}`}</td>
-      <td>{player.seasonScore.toFixed(1)}</td>
-    </tr>
-  ));
+  const leaderboardElements = seasonLeaderboardData.map((player) => {
+    const wins = player.seasonWins;
+    const losses = player.seasonLosses;
+    const pushes = player.seasonPushes;
+    const winPct = (wins / (wins + losses)).toFixed(2);
+    return (
+      <tr key={player.username} className={classes.leaderboardRow}>
+        <td className={classes.username}>{player.username}</td>
+        <td>{`${player.firstName} ${player.lastName}`}</td>
+        <td>{`${wins}-${losses}${
+          pushes > 0 ? `-${pushes}` : ''
+        } (${winPct}%)`}</td>
+        <td>{player.seasonScore.toFixed(1)}</td>
+      </tr>
+    );
+  });
 
   return (
     <React.Fragment>
@@ -32,6 +41,7 @@ export const SeasonLeaderboard = () => {
           <tr className={classes.leaderboardHeader}>
             <th>Username</th>
             <th>Name</th>
+            <th>Record</th>
             <th>Season score</th>
           </tr>
         </thead>
