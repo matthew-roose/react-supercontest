@@ -25,9 +25,8 @@ export const SeasonLeaderboard = () => {
       <tr key={player.username} className={classes.leaderboardRow}>
         <td className={classes.username}>{player.username}</td>
         <td>{`${player.firstName} ${player.lastName}`}</td>
-        <td>{`${wins}-${losses}${
-          pushes > 0 ? `-${pushes}` : ''
-        } (${winPct}%)`}</td>
+        <td>{`${wins}-${losses}${pushes > 0 ? `-${pushes}` : ''}`}</td>
+        <td>{winPct ? `${winPct}%` : ''}</td>
         <td>{player.seasonScore.toFixed(1)}</td>
       </tr>
     );
@@ -42,6 +41,7 @@ export const SeasonLeaderboard = () => {
             <th>Username</th>
             <th>Name</th>
             <th>Record</th>
+            <th>Win Pct.</th>
             <th>Season score</th>
           </tr>
         </thead>
