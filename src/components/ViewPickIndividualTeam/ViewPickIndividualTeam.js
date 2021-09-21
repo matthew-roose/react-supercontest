@@ -29,7 +29,7 @@ export const ViewPickIndividualTeam = (props) => {
   }`;
 
   const scoreClasses = `${classes.score} ${
-    !props.score ? classes.hideBlankScore : ''
+    !props.score && props.score !== 0 ? classes.hideBlankScore : ''
   }`;
 
   return (
